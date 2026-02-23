@@ -116,7 +116,8 @@ def train():
                 q_values = policy_net(s_t).gather(1, a_t).squeeze(1)
 
                 with torch.no_grad():
-                    next_q = target_net(ns_t).max(dim=1).values
+                    best_next_actions = policy_net(ns_t).argmax(dim=1, keepdim=True)
+                    next_q = target_net(ns_t).gather(1, best_next_actions).squeeze(1)
                     targets = r_t + GAMMA * next_q * (1.0 - d_t)
 
                 loss = nn.functional.smooth_l1_loss(q_values, targets)

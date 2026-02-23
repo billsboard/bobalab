@@ -46,7 +46,7 @@ class QLearningFullEnv(gym.Env):
         self._segment_idx += 1
 
         if self._battery < 0:
-            reward = -200.0 + charge_penalty + travel_penalty
+            reward = -1000.0 + charge_penalty + travel_penalty
             terminated = True
             truncated = False
             if self.render_mode == "human":
